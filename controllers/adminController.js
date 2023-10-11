@@ -14,12 +14,6 @@ const securePassword = async (password) => {
     }
 }
 
-const login = async (req, res) => {
-
-    res.send('Hey Please Login here!')
-
-}
-
 
 const blogSetup = async (req, res) => {
 
@@ -40,7 +34,7 @@ const blogSetup = async (req, res) => {
 
 }
 
-const blogSetupSave = async(req, res) =>{
+const blogSetupSave = async (req, res) => {
 
     try {
 
@@ -77,9 +71,18 @@ const blogSetupSave = async(req, res) =>{
         console.log(error.message);
     }
 }
+const dashboard = async (req, res) => {
+    try {
+
+        res.send('Hi Admin Dashboard Is Here!');
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
 
 module.exports = {
-    login,
     blogSetup,
-    blogSetupSave
+    blogSetupSave,
+    dashboard
 }
