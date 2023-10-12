@@ -26,7 +26,7 @@ const verifyLogin = async (req, res) => {
             if (passwordMatch) {
                 req.session.user_id = userData._id;
                 req.session.is_admin = userData.is_admin;
-                if (userData.is_admin == 1) {
+                if (userData.is_admin == 1){
                     res.redirect('/dashboard');
                 }
                 else {

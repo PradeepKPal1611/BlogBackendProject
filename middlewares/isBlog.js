@@ -4,8 +4,10 @@ const isBlog = async(req, res, next)=>{
     try{
 
         const blogSetting = await BlogSetting.find({});
-        blogSetting.length = 1;
-        if(blogSetting.length == 0 && req.originalUrl != "/blog-setup"){
+
+        blogSetting.length == 1;
+
+        if(blogSetting.length === 0 && req.originalUrl !== "/blog-setup"){
           res.redirect('/blog-setup');
         }
         else{
