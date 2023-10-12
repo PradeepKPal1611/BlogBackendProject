@@ -74,7 +74,7 @@ const blogSetupSave = async (req, res) => {
 const dashboard = async (req, res) => {
     try {
 
-        res.send('Hi Admin Dashboard Is Here!');
+        res.render('admin/dashboard');
 
     } catch (error) {
         console.log(error.message);
