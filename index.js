@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://127.0.0.1:27017/BLOG");
 
-const express =require("express");
+const express = require("express");
 const app = express();
 
 const isBlog = require("./middlewares/isBlog");
@@ -14,12 +14,12 @@ app.use(isBlog.isBlog);
 
 // For Admin Routes
 const adminRoute = require("./routes/adminRoute");
-app.use('/',adminRoute);
+app.use('/', adminRoute);
 
 // For User Routes
-const userRoute = require("./routes/userRoute");
-app.use('/',userRoute);
+const userRoute = require("./routes/UserRoute");
+app.use('/', userRoute);
 
-app.listen(3000,function(){
+app.listen(3000, function () {
     console.log("Server is running Good");
 });
