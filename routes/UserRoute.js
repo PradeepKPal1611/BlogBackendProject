@@ -11,7 +11,8 @@ const config = require('../config/config');
 
 user_route.use(session({secret:config.sessionSecret,
 resave:true,
-saveUninitialized:true}));
+saveUninitialized:true
+}));
 
 user_route.set('view engine', 'ejs');
 user_route.set('views', './views');
@@ -25,6 +26,8 @@ const adminLoginAuth = require('../middlewares/adminLoginAuth');
 
 user_route.get('/login',adminLoginAuth.isLogout,userController.loadLogin);
 user_route.post('/login',userController.verifyLogin);
+
+user_route.get('/logout',adminLoginAuth.isLogin,userController.logout);
 
 user_route.get('/profile',userController.profile);
 

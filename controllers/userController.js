@@ -1,3 +1,4 @@
+const { isLogout } = require('../middlewares/adminLoginAuth');
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
 
@@ -55,8 +56,20 @@ const profile = async (req, res) => {
     }
 }
 
+const logout = async (req, res) => {
+    try {
+
+        req.session.destroy();
+        res.redirect('/login');
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 module.exports = {
     loadLogin,
     verifyLogin,
-    profile
+    profile,
+    logout
 }
