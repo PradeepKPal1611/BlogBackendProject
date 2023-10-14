@@ -3,9 +3,6 @@
     <!-- Page Content  -->
     <div id="content" class="p-4 p-md-5 pt-5">
         <h2 class="mb-4">Add Post</h2>
-        <p>Welcome To Create Post Guys!!</p>
-        <p>Congratulation Guys</p>
-
 
         <div class="container">
             <form method="POST">
@@ -24,21 +21,22 @@
                         <h5>Content</h5>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                     <div class="col-sm-12">
                         <textarea name="content" rows="5" placeholder="Enter Post Content" required class="w-100"></textarea>
                     </div>
                 </div>
+                <div class="row">
                 <div class="col-sm-12">
                     <input type="submit" value="Add Post" class="btn btn-primary">
                 </div>
+               </div>
             </form>
         </div>
 
-        <%
-           if(typeof message !=='undefined'){
-            <p style="color: green;"><%=message %></p>
-           }
-        %>
+        <% if(typeof message !== 'undefined') { %>
+            <p style="color: green;"><%= message %></p>
+        <% } %>
+
     </div>
     <%- include('../layouts/adminFooter.ejs') %>

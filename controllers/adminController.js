@@ -1,8 +1,8 @@
 const BlogSetting = require('../models/blogSettingModel');
 const User = require('../models/userModel');
-const Post = require('../models/postModel.js');
+const Post = require('../models/postModel');
 const bcrypt = require('bcrypt');
-const { error } = require('selenium-webdriver');
+
 
 
 const securePassword = async (password) => {
@@ -97,7 +97,7 @@ const loadPostDashboard = async(req, res)=>{
 const addPost = async(req, res)=>{
     try{
 
-      const post = new post({
+      const post = new Post({
         title:req.body.title,
         content:req.body.content
       });  
@@ -109,8 +109,6 @@ const addPost = async(req, res)=>{
     } catch (error){
         console.log(error.message);
     }
-}
-
 }
 module.exports = {
     blogSetup,
