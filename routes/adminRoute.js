@@ -1,6 +1,7 @@
 const express = require("express");
 const admin_route = express();
 
+
 const bodyParser = require('body-parser');
 admin_route.use(bodyParser.json());
 admin_route.use(bodyParser.urlencoded({ extended: true }));
