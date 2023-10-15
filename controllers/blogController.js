@@ -17,7 +17,7 @@ const loadPost = async(req, res)=>{
         
       const post = await Post.findOne({"_id":req.params.id});
       
-      res.send(post);
+      res.render('post',{post:post});
 
     } catch(error){
         console.log(error.message);
