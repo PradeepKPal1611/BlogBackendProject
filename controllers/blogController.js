@@ -1,4 +1,4 @@
-const Post = require("../routes/postModel ");
+
 
 const loadBlog = async(req, res)=>{
 
