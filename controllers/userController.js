@@ -1,6 +1,45 @@
 const { isLogout } = require('../middlewares/adminLoginAuth');
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
+const randomstring = require('randomstring');
+const config = require('../config/config');
+const { name } = require('ejs');
+
+const sendResetPasswordMail = async(name, email, token)=>{
+
+    try{
+
+      const transport = nodemailer.createTransport({
+        host:'smtp.gmail.com',
+        port:587,
+        secure:false,
+        requireTLS:true,
+        auth:{
+            user:config.emailUser,
+            pass:config.emailPassword
+        }
+      });
+
+      const mailOptions = {
+        from:config.emailUser,
+        to:email,
+        subject:'Reset Password',
+        html:'<p>Hii '+name+',Please click here to <a href="http://127.0.0.1:3000/reset-password?token='+token+'">Reset</a> Your Password.'
+      }
+      transport.sendMail(mailOptions, function(error, info){
+         if(error){
+            console.log(error);
+         } 
+         else{
+            console.log("Email has been sent:-", info.response);
+         }
+      })
+
+    } catch(error) {
+      console.log(error.meassage);
+    }
+}
 
 const loadLogin = async (req, res) => {
     try {
@@ -67,9 +106,44 @@ const logout = async (req, res) => {
     }
 }
 
+const forgetLoad = async(req, res)=>{
+     try{
+
+      res.render('forget-password');
+
+     } catch(error){
+        console.log(error.message);
+     }
+}
+
+const forgetPasswordVerify = async(req, res)=>{
+    try{
+
+        const email = req.body.email;
+        const userData = User.findOne({ email:email});
+
+        if(userData){
+           const randomString = randomstring.generate();
+             
+           await User.updateOne({email:email},{$set:{token:randomString}});
+           sendResetPasswordMail(userData.name, userData.email, randomString);
+           res.render('forget-password',{message:"Please check your mail to Reset Your Password!"});
+        }
+        else{
+            res.render('forget-password',{ message:"User email is incorrect!"});
+        }
+
+    } catch(error){
+       console.log(error.message);
+    }
+}
+
+
 module.exports = {
     loadLogin,
     verifyLogin,
     profile,
-    logout
+    logout,
+    forgetLoad,
+    forgetPasswordVerify
 }
