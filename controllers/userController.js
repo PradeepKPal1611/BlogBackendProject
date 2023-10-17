@@ -6,6 +6,8 @@ const randomstring = require('randomstring');
 const config = require('../config/config');
 const { name } = require('ejs');
 
+const adminController = require('../controller/adminController')
+
 const sendResetPasswordMail = async(name, email, token)=>{
 
     try{
@@ -138,6 +140,40 @@ const forgetPasswordVerify = async(req, res)=>{
     }
 }
 
+  const resetPasswordLoad = async(req, res)=>{
+    try{
+
+        const token = req.body.token;
+        const tokenData = await User.findOne({token:token});
+
+        if(tokenData){
+
+            res.render('reset-password', {user_id:tokenData._id});
+
+        } 
+        else{
+            res.render('404');
+        }
+
+    } catch(error){
+        console.log(error.message);
+    }
+  }
+
+  const resetPassword = async(req, res)=>{
+    try{
+         const password = req.body.password;
+         const user_id = req.body.user_id;
+         
+         const securePassword = await adminController.securePassword(password);
+         User.findbyIdAndUpdate({_id:user_id}, {$set:{password:securePassword, token:''}});
+           
+        res.redirect('/login');
+
+    } catch(error) {
+       console.log(error.meassage);
+    }
+  }
 
 module.exports = {
     loadLogin,
@@ -145,5 +181,8 @@ module.exports = {
     profile,
     logout,
     forgetLoad,
-    forgetPasswordVerify
+    forgetPasswordVerify,
+    resetPasswordLoad,
+    resetPassword
+
 }
