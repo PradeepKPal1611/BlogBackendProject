@@ -183,6 +183,7 @@ module.exports = {
     forgetLoad,
     forgetPasswordVerify,
     resetPasswordLoad,
-    resetPassword
+    resetPassword,
+    sendResetPasswordMail
 
 }
