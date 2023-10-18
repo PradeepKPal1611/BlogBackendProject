@@ -6,7 +6,7 @@ const randomstring = require('randomstring');
 const config = require('../config/config');
 const { name } = require('ejs');
 
-const adminController = require('../controller/adminController')
+const adminController = require('../controller/adminController');
 
 const sendResetPasswordMail = async(name, email, token)=>{
 
@@ -166,7 +166,7 @@ const forgetPasswordVerify = async(req, res)=>{
          const user_id = req.body.user_id;
          
          const securePassword = await adminController.securePassword(password);
-         User.findbyIdAndUpdate({_id:user_id}, {$set:{password:securePassword, token:''}});
+         await User.findbyIdAndUpdate({_id:user_id}, {$set:{password:securePassword, token:''}});
            
         res.redirect('/login');
 
