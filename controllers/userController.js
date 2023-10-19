@@ -39,7 +39,7 @@ const sendResetPasswordMail = async (name, email, token) => {
         })
 
     } catch (error) {
-        console.log(error.meassage);
+        console.log(error.message);
     }
 }
 
@@ -168,7 +168,7 @@ const resetPassword = async (req, res) => {
         res.redirect('/login');
 
     } catch (error) {
-        console.log(error.meassage);
+        console.log(error.message);
     }
 }
 
