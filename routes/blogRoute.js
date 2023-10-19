@@ -11,5 +11,6 @@ const blogController = require('../controllers/blogController');
 blog_route.get('/',blogController.loadBlog);
 
 blog_route.get('/post/:id',blogController.loadPost);
+blog_route.post('/add-comment',blogController.addComment);
 
 module.exports = blog_route;

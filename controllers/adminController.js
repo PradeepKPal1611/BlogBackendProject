@@ -26,8 +26,7 @@ const blogSetup = async (req, res) => {
 
         if (blogSetting.length > 0) {
             res.redirect('/login');
-        }
-        else {
+        } else {
             res.render('blogSetup');
         }
 
@@ -84,29 +83,29 @@ const dashboard = async (req, res) => {
     }
 }
 
-const loadPostDashboard = async(req, res)=>{
-    try{
+const loadPostDashboard = async (req, res) => {
+    try {
 
         res.render('admin/postDashboard');
 
-    } catch (error){
+    } catch (error) {
         console.log(error.message);
     }
 }
 
-const addPost = async(req, res)=>{
-    try{
+const addPost = async (req, res) => {
+    try {
 
-      const post = new Post({
-        title:req.body.title,
-        content:req.body.content
-      });  
+        const post = new Post({
+            title: req.body.title,
+            content: req.body.content
+        });
 
-      const postData = await post.save();
+        const postData = await post.save();
 
-      res.render('admin/postDashboard', {message:'Post added Successfully!'});
+        res.render('admin/postDashboard', { message: 'Post added Successfully!' });
 
-    } catch (error){
+    } catch (error) {
         console.log(error.message);
     }
 }

@@ -29,7 +29,16 @@
                 <div class="card bg-light">
                     <div class="card-body">
                         <!-- Comment form-->
-                        <form class="mb-4"><textarea class="form-control" rows="3" placeholder="Join the discussion and leave a comment!"></textarea></form>
+                        <h5>Leave a comment</h5>
+                        <form class="mb-4" id="comment-form">
+                            <input type="text" name="post_id" value="<%= post._id %>" >
+                            <input type="text" name="username" placeholder="Enter your name" required class="form-control mb-3">
+                            <textarea class="form-control" name="cooment" required rows="3" placeholder="Join the discussion and leave a comment!"></textarea>
+                            <input type="submit" class="btn btn-primary mt-3">
+                        </form>
+
+                        <p class="com-status" style="color: green;"></p>
+
                         <!-- Comment with nested comments-->
                         <div class="d-flex mb-4">
                             <!-- Parent comment-->
@@ -82,5 +91,28 @@
         </div>
     </div>
 </div>
+
+<script>
+     $(document).ready(function(){
+        $('#comment-form').submit(function(event){
+           event.preventDefault();
+
+           var formdata = $(this).serialize();
+
+           $.ajax({
+            url:"/add-comment",
+            type:"POST",
+            data:
+            success:function(data){
+                $('.com-status').text(data.msg);
+                setTimeout(function(){
+                    $('.com-status').text(''); 
+                },5000);
+            }
+           });
+        });
+     })
+
+</script>
 
 <%- include('./layouts/footer.ejs') %>
