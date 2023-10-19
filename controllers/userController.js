@@ -8,38 +8,38 @@ const { name } = require('ejs');
 
 const adminController = require('../controller/adminController');
 
-const sendResetPasswordMail = async(name, email, token)=>{
+const sendResetPasswordMail = async (name, email, token) => {
 
-    try{
+    try {
 
-      const transport = nodemailer.createTransport({
-        host:'smtp.gmail.com',
-        port:587,
-        secure:false,
-        requireTLS:true,
-        auth:{
-            user:config.emailUser,
-            pass:config.emailPassword
+        const transport = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false,
+            requireTLS: true,
+            auth: {
+                user: config.emailUser,
+                pass: config.emailPassword
+            }
+        });
+
+        const mailOptions = {
+            from: config.emailUser,
+            to: email,
+            subject: 'Reset Password',
+            html: '<p>Hii ' + name + ',Please click here to <a href="http://127.0.0.1:3000/reset-password?token=' + token + '">Reset</a> Your Password.'
         }
-      });
+        transport.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            }
+            else {
+                console.log("Email has been sent:-", info.response);
+            }
+        })
 
-      const mailOptions = {
-        from:config.emailUser,
-        to:email,
-        subject:'Reset Password',
-        html:'<p>Hii '+name+',Please click here to <a href="http://127.0.0.1:3000/reset-password?token='+token+'">Reset</a> Your Password.'
-      }
-      transport.sendMail(mailOptions, function(error, info){
-         if(error){
-            console.log(error);
-         } 
-         else{
-            console.log("Email has been sent:-", info.response);
-         }
-      })
-
-    } catch(error) {
-      console.log(error.meassage);
+    } catch (error) {
+        console.log(error.meassage);
     }
 }
 
@@ -70,16 +70,13 @@ const verifyLogin = async (req, res) => {
                 req.session.is_admin = userData.is_admin;
                 if (userData.is_admin == 1) {
                     res.redirect('/dashboard');
-                }
-                else {
+                } else {
                     res.redirect('/profile');
                 }
-            }
-            else {
+            } else {
                 res.render('login', { message: "Email and Password are incorrect!" });
             }
-        }
-        else {
+        } else {
             res.render('login', { meassage: "Email and Password are incorrect!" });
         }
 
@@ -108,72 +105,72 @@ const logout = async (req, res) => {
     }
 }
 
-const forgetLoad = async(req, res)=>{
-     try{
+const forgetLoad = async (req, res) => {
+    try {
 
-      res.render('forget-password');
+        res.render('forget-password');
 
-     } catch(error){
+    } catch (error) {
         console.log(error.message);
-     }
-}
-
-const forgetPasswordVerify = async(req, res)=>{
-    try{
-
-        const email = req.body.email;
-        const userData = User.findOne({ email:email});
-
-        if(userData){
-           const randomString = randomstring.generate();
-             
-           await User.updateOne({email:email},{$set:{token:randomString}});
-           sendResetPasswordMail(userData.name, userData.email, randomString);
-           res.render('forget-password',{message:"Please check your mail to Reset Your Password!"});
-        }
-        else{
-            res.render('forget-password',{ message:"User email is incorrect!"});
-        }
-
-    } catch(error){
-       console.log(error.message);
     }
 }
 
-  const resetPasswordLoad = async(req, res)=>{
-    try{
+const forgetPasswordVerify = async (req, res) => {
+    try {
+
+        const email = req.body.email;
+        const userData = User.findOne({ email: email });
+
+        if(userData) {
+            const randomString = randomstring.generate();
+
+            await User.updateOne({ email: email }, { $set: { token: randomString } });
+            sendResetPasswordMail(userData.name, userData.email, randomString);
+            res.render('forget-password', { message: "Please check your mail to Reset Your Password!" });
+        }
+        else {
+            res.render('forget-password', { message: "User email is incorrect!" });
+        }
+
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const resetPasswordLoad = async (req, res) => {
+    try {
 
         const token = req.body.token;
-        const tokenData = await User.findOne({token:token});
+        const tokenData = await User.findOne({ token: token });
 
-        if(tokenData){
+        if (tokenData) {
 
-            res.render('reset-password', {user_id:tokenData._id});
+            res.render('reset-password', { user_id: tokenData._id });
 
-        } 
-        else{
+        }
+        else {
             res.render('404');
         }
 
-    } catch(error){
+    } catch (error) {
         console.log(error.message);
     }
-  }
+}
 
-  const resetPassword = async(req, res)=>{
-    try{
-         const password = req.body.password;
-         const user_id = req.body.user_id;
-         
-         const securePassword = await adminController.securePassword(password);
-         await User.findbyIdAndUpdate({_id:user_id}, {$set:{password:securePassword, token:''}});
-           
+const resetPassword = async (req, res) => {
+    try {
+        const password = req.body.password;
+        const user_id = req.body.user_id;
+
+        const securePassword = await adminController.securePassword(password);
+        await User.findbyIdAndUpdate({ _id: user_id }, { $set: { password: securePassword, token: '' } });
+
         res.redirect('/login');
 
-    } catch(error) {
-       console.log(error.meassage);
+    } catch (error) {
+        console.log(error.meassage);
     }
-  }
+}
 
 module.exports = {
     loadLogin,
