@@ -6,7 +6,7 @@ const randomstring = require('randomstring');
 const config = require('../config/config');
 const { name } = require('ejs');
 
-const adminController = require('../controller/adminController');
+const adminController = require('../controllers/adminController');
 
 const sendResetPasswordMail = async (name, email, token) => {
 
@@ -121,7 +121,7 @@ const forgetPasswordVerify = async (req, res) => {
         const email = req.body.email;
         const userData = User.findOne({ email: email });
 
-        if(userData) {
+        if (userData) {
             const randomString = randomstring.generate();
 
             await User.updateOne({ email: email }, { $set: { token: randomString } });
