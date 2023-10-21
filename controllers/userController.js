@@ -163,7 +163,7 @@ const resetPassword = async (req, res) => {
         const user_id = req.body.user_id;
 
         const securePassword = await adminController.securePassword(password);
-        await User.findbyIdAndUpdate({ _id: user_id }, { $set: { password: securePassword, token: '' } });
+        await User.findByIdAndUpdate({ _id: user_id }, { $set: { password: securePassword, token: '' } });
 
         res.redirect('/login');
 
