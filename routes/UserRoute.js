@@ -32,7 +32,7 @@ user_route.get('/profile', userController.profile);
 
 user_route.get('/forget-password', adminLoginAuth.isLogout, userController.forgetLoad);
 
-user_route.post('/forget-password', userController.forgetPasswordVerify)
+user_route.post('/forget-password', userController.forgetPasswordVerify);
 
 user_route.get('/reset-password', adminLoginAuth.isLogout, userController.resetPasswordLoad);
 
