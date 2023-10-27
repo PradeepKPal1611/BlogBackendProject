@@ -24,6 +24,6 @@ app.use('/', userRoute);
 const blogRoute = require("./routes/blogRoute");
 app.use('/',blogRoute);
 
-app.listen(3000, function () {
+app.listen(3002, function () {
     console.log("Server is running Good");
 });
