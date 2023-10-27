@@ -8,7 +8,7 @@ const { name } = require('ejs');
 
 const adminController = require('../controllers/adminController');
 
-const sendResetPasswordMail = async(name, email, token) => {
+const sendResetPasswordMail = async (name, email, token) => {
 
     try {
 
