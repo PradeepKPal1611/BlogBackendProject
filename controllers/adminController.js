@@ -95,10 +95,15 @@ const loadPostDashboard = async (req, res) => {
 
 const addPost = async (req, res) => {
     try {
+        var image = '';
+        if(req.body.image !== undefined){
+            image = req.body.image; 
+        }
 
         const post = new Post({
             title: req.body.title,
-            content: req.body.content
+            content: req.body.content,
+            image: image
         });
 
         const postData = await post.save();
@@ -109,12 +114,25 @@ const addPost = async (req, res) => {
         console.log(error.message);
     }
 }
+
+const uploadPostImage =async(req, res)=> {
+    try{
+
+     var imagePath = '/images'
+     imagePath = imagePath+'/'+req.file.filename;
+     res.send({success:true, mag:'Post Image Uploaded Successfully!',path:imagePath });
+    } catch(error){
+        res.send({success:false, mag:error.message});
+    }
+}
+
 module.exports = {
     blogSetup,
     blogSetupSave,
     dashboard,
     loadPostDashboard,
     addPost,
-    securePassword
+    securePassword,
+    uploadPostImage
 
 }
