@@ -1,3 +1,6 @@
+const Post = require('../models/postModel');
+const { ObjectID } = require('mongodb');
+
 const loadBlog = async (req, res) => {
     try {
         const posts = await Post.find({});
@@ -20,11 +23,15 @@ const addComment = async (req, res) => {
     try {
         var post_id = req.body.post_id;
         var username = req.body.username;
+        var email = req.body.email;
         var comment = req.body.comment;
+
+        var commit_id = new ObjectID();
+
 
         await post.findByIdAndUpdate({ _id: post_id }, {
             $push: {
-                "comments": { username: username, comment: comment }
+                "comments": { _id: commit_id, username: username, email: email, comment: comment }
             }
         });
 
