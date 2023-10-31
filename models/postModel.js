@@ -15,8 +15,8 @@ const postSchema = new mongoose.Schema({
         default:true
     },
     comments:{
-        type:Object,
-        default:{}
+        type: Object,
+        default: {}
     }
 });
 
