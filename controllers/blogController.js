@@ -44,8 +44,8 @@ const addComment = async (req, res) => {
 const doReply = async (req, res)=> {
     try{
      var reply_id = new ObjectID();
-     Post.updateOne(){
-      "_id" : ObjectID(req.body.post_id),
+    await Post.updateOne({
+      "_id" :ObjectID(req.body.post_id),
       "comments.id" : ObjectID(req.body.comment_id)
      },{
          $push : {
