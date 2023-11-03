@@ -41,7 +41,7 @@ const addComment = async (req, res) => {
     }
 }
 
-const doReply = async (req, res){
+const doReply = async (req, res)=> {
     try{
      var reply_id = new ObjectID();
      Post.updateOne(){
