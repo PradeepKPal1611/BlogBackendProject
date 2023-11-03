@@ -41,8 +41,29 @@ const addComment = async (req, res) => {
     }
 }
 
+const doReply = async (req, res){
+    try{
+     var reply_id = new ObjectID();
+     Post.updateOne(){
+      "_id" : ObjectID(req.body.post_id),
+      "comments.id" : ObjectID(req.body.comment_id)
+     },{
+         $push : {
+            "comments.$.replies": {_id:reply_id, name:req.body.name, reply: req.body.reply
+            }       
+                
+        });
+
+        res.status(200).send({ success: true, msg:"Reply Added!" });
+
+     }
+    } catch (error) {
+        res.status(200).send({ success: false, msg: error.message });
+}
+
 module.exports = {
     loadBlog,
     loadPost,
-    addComment
+    addComment,
+    doReply
 }
